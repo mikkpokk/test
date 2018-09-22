@@ -1,0 +1,113 @@
+<layout>layout/main</layout>
+
+<layout_title>
+    Simple car insurance calculator
+</layout_title>
+
+<layout_content>
+    <h1>
+        Simple car insurance calculator
+    </h1>
+
+    <br>
+    <hr>
+    <br>
+
+    <form action="$post_url" method="post" id="policy_form">
+        <label for="car_value">Estimated value of the car <b>(100 - 100 000 EUR)</b> <b style="color: red;">*</b></label>
+        <input type="number" id="car_value" class="js_number_only" name="car_value" placeholder="100000" min="100" max="100000" step="100" data-type="float">
+
+        <label for="tax_percentage">Tax percentage</label>
+        <input type="number" id="tax_percentage" class="js_number_only" name="tax_percentage" placeholder="0" min="0" value="0" max="100" step="1" data-type="int">
+
+        <label for="instalments">Number of instalments (1 - 12) <b style="color: red;">*</b></label>
+        <input type="number" id="instalments" class="js_number_only" name="instalments" placeholder="12" min="1" max="12" step="1" data-type="int">
+        <input type="hidden" id="user_time" name="user_time" value="">
+
+        <input type="submit" value="Calculate">
+
+    </form>
+</layout_content>
+
+<layout_scripts>
+    <script>
+        var addEventHandler = function(element, event_type, handler) {
+            if (element.addEventListener) {
+                element.addEventListener(event_type, handler, false);
+            } else if (element.attachEvent) {
+                element.attachEvent('on' + event_type, handler);
+            }
+        };
+
+        var number_only_items = document.getElementsByClassName('js_number_only');
+        var number_only_items_length = number_only_items.length;
+        var input_element;
+        var input_value;
+
+        addEventHandler(document.getElementById('policy_form'), "submit", function(event) {
+            var d = new Date();
+
+            document.getElementById('user_time').value = d.getFullYear() + "-" +
+                    ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
+                    ("00" + d.getDate()).slice(-2) + " " +
+                    ("00" + d.getHours()).slice(-2) + ":" +
+                    ("00" + d.getMinutes()).slice(-2) + ":" +
+                    ("00" + d.getSeconds()).slice(-2);
+        });
+
+        if (number_only_items_length > 0) {
+            for (var i = 0; i < number_only_items_length; ++i) {
+                input_element = number_only_items[i];
+                addEventHandler(input_element, 'keydown', function(event) {
+                    var is_allowed_key = ((
+                            (event.keyCode === 13 || event.keyCode === 190)
+                            // 0 - 9 numbers without shift key
+                            || (47 < event.keyCode && event.keyCode < 58 && event.shiftKey === false)
+                            // numpad 0 - 9 numbers, without shift key
+                            || (95 < event.keyCode && event.keyCode < 106 && event.shiftKey === false)
+                            // backspace, tab
+                            || (event.keyCode == 8 || event.keyCode == 9)
+                            // arrow left, arrow right
+                            || (event.keyCode == 37 || event.keyCode == 39)
+                    ));
+
+                    if (! is_allowed_key) {
+                        event.preventDefault();
+                    }
+
+                    return is_allowed_key;
+                });
+
+                addEventHandler(input_element, 'keyup',  function() {
+                    input_value = this.value;
+
+                    if (input_value) {
+                        if (input_value > parseFloat(this.getAttribute('max'))) {
+                            input_value = this.getAttribute('max');
+                        }
+
+                        this.value = input_value;
+                    }
+                });
+
+                addEventHandler(input_element, 'blur',  function() {
+                    input_value = this.value;
+
+                    if (input_value) {
+                        if (input_value < parseFloat(this.getAttribute('min'))) {
+                            input_value = this.getAttribute('min');
+                        }
+
+                        if (this.getAttribute('data-type') === 'float') {
+                            input_value = parseFloat(input_value);
+                        } else {
+                            input_value = parseInt(input_value);
+                        }
+
+                        this.value = input_value;
+                    }
+                });
+            }
+        }
+    </script>
+</layout_scripts>
