@@ -18,16 +18,16 @@ interface ValidatorInterface
     public function validateType(): array;
 
     /**
-     * @param int $amount
+     * @param mixed $amount
      * @return array
      */
-    public function validateMin(int $amount): array;
+    public function validateMin($amount): array;
 
     /**
-     * @param int $amount
+     * @param mixed $amount
      * @return array
      */
-    public function validateMax(int $amount): array;
+    public function validateMax($amount): array;
 
     /**
      * @param $default

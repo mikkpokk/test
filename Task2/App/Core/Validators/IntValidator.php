@@ -20,12 +20,14 @@ class IntValidator extends Validation implements ValidatorInterface
     }
 
     /**
-     * @param int $amount
+     * @param mixed $amount
      * @return array
      */
-    public function validateMin(int $amount): array
+    public function validateMin($amount): array
     {
-        if ((float) $this->input < $amount) {
+        $amount = (int) $amount;
+
+        if ((int) $this->input < $amount) {
             return $this->setErrorMessage('minimum allowed value is ' . $amount);
         }
 
@@ -33,12 +35,14 @@ class IntValidator extends Validation implements ValidatorInterface
     }
 
     /**
-     * @param int $amount
+     * @param mixed $amount
      * @return array
      */
-    public function validateMax(int $amount): array
+    public function validateMax($amount): array
     {
-        if ((float) $this->input > $amount) {
+        $amount = (int) $amount;
+
+        if ((int) $this->input > $amount) {
             return $this->setErrorMessage('maximum allowed value is ' . $amount);
         }
 
