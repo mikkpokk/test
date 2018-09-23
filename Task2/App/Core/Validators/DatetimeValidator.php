@@ -33,26 +33,26 @@ class DatetimeValidator extends Validation implements ValidatorInterface
     }
 
     /**
-     * @param int $amount
+     * @param mixed $date
      * @return array
      */
-    public function validateMin(int $amount): array
+    public function validateMin($date): array
     {
-        if ((float) $this->input < $amount) {
-            return $this->setErrorMessage('minimum allowed value is ' . $amount);
+        if (strtotime($this->input) < strtotime($date)) {
+            return $this->setErrorMessage('minimum allowed value is ' . $date);
         }
 
         return [];
     }
 
     /**
-     * @param int $amount
+     * @param mixed $date
      * @return array
      */
-    public function validateMax(int $amount): array
+    public function validateMax($date): array
     {
-        if ((float) $this->input > $amount) {
-            return $this->setErrorMessage('maximum allowed value is ' . $amount);
+        if (strtotime($this->input) > strtotime($date)) {
+            return $this->setErrorMessage('maximum allowed value is ' . $date);
         }
 
         return [];
