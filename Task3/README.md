@@ -1,6 +1,6 @@
 # Create database
 ```
-CREATE DATABASE `insly_test_task_3`
+CREATE DATABASE `test_task_3`
 ```
 
 # Import
