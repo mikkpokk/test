@@ -15,7 +15,7 @@
 
     <form action="$post_url" method="post" id="policy_form">
         <label for="car_value">Estimated value of the car <b>(100 - 100 000 EUR)</b> <b style="color: red;">*</b></label>
-        <input type="number" id="car_value" class="js_number_only" name="car_value" placeholder="100000" min="100" max="100000" step="100" data-type="float">
+        <input type="number" id="car_value" class="js_number_only" name="car_value" placeholder="100000" min="100" max="100000" step="0.01" data-type="float">
 
         <label for="tax_percentage">Tax percentage</label>
         <input type="number" id="tax_percentage" class="js_number_only" name="tax_percentage" placeholder="0" min="0" value="0" max="100" step="1" data-type="int">
